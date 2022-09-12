@@ -50,6 +50,13 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		// properties
 
 		///<summary>
+		/// Apply FAQ Schema: Schema markup, also known as structured data, is the language search engines use to read and understand the content on your pages. Applying FAQ schema helps a search engine understand your accordion items and interprets them as FAQ's.
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "10.1.0+3972538")]
+		[ImplementPropertyType("applyFAQSchema")]
+		public virtual bool ApplyFaqschema => this.Value<bool>(_publishedValueFallback, "applyFAQSchema");
+
+		///<summary>
 		/// Hide: Set this to true if you want to hide this item
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "10.1.0+3972538")]
