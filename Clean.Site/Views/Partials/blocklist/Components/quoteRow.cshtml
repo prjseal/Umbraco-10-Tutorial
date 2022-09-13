@@ -1,0 +1,24 @@
+﻿@inherits UmbracoViewPage<BlockListItem>
+
+@{
+    var row = (QuoteRow)Model.Content;
+    var settings = (QuoteRowSettings)Model.Settings;
+    if(settings?.Hide ?? false) { return; }
+}
+
+<div class="row gx-4 gx-lg-5 my-5 justify-content-center bg-light text-end">	
+	<figure class="@(!string.IsNullOrWhiteSpace(settings.TextAlignment) ? settings.TextAlignment : null)">
+		<blockquote cite="@(row.CiteLink != null ? row.CiteLink.Url : null)">
+			@row.QuoteText
+		</blockquote>
+		@if(!string.IsNullOrWhiteSpace(row.QuoteAuthor))
+		{
+			<figcaption>
+				@if(!string.IsNullOrWhiteSpace(row.AuthorJobTitle))
+				{
+					@:—@(row.QuoteAuthor), <cite>@row.AuthorJobTitle</cite>				
+				}
+			</figcaption>
+		}
+	</figure>
+</div>
