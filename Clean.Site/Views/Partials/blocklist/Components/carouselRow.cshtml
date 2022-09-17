@@ -1,0 +1,71 @@
+@inherits UmbracoViewPage<BlockListItem>
+
+@{
+    var row = (CarouselRow)Model.Content;
+    var settings = (CarouselRowSettings)Model.Settings;
+    if(settings?.Hide ?? false) { return; }
+    if(row.CarouselItems == null || !row.CarouselItems.Any()) return;
+    var carouselId = "carousel-" + row.Key;
+}
+
+<div id="@carouselId" class="carousel @((settings?.ShowDarkMode ?? false) ? "carousel-dark" : null) slide" data-bs-ride="carousel">
+    @if(settings?.ShowIndicators ?? false)
+    {
+        var itemCount = row.CarouselItems.Count;   
+        <div class="carousel-indicators">
+            @for(var slideIndex = 0; slideIndex < itemCount; slideIndex++)
+            {
+                var isFirst = slideIndex == 0;
+                <button type="button" data-bs-target="#@carouselId" data-bs-slide-to="@slideIndex" class="@(isFirst ? "active" : null)" aria-current="@isFirst" aria-label="Slide @(slideIndex + 1)"></button>
+            }
+        </div>
+    }
+    
+    <div class="carousel-inner">
+        @{
+            var itemIndex = 0;
+            foreach(var item in row.CarouselItems)
+            {
+                var rowItem = (CarouselItem)item.Content;
+                var rowSettings = (CarouselItemSettings)item.Settings;
+                if(rowSettings.Hide) continue;
+
+                var isFirstSlide = itemIndex == 0;
+                var hasTitle = !string.IsNullOrWhiteSpace(rowItem.Title);
+                var hasDescription = !string.IsNullOrWhiteSpace(rowItem.Description);
+
+                <div class="carousel-item @(isFirstSlide ? "active" : null)">
+                    @if(rowItem.Image != null)
+                    {
+                        <img src="@rowItem.Image.GetCropUrl(width: 900, height: 300)" class="d-block w-100" alt="@rowItem.Image.Name">
+                    }
+                    @if(hasTitle || hasDescription)
+                    {
+                        <div class="carousel-caption d-none d-md-block">
+                            @if(hasTitle)
+                            {
+                                <h5>@rowItem.Title</h5>
+                            }
+                            @if(hasDescription)
+                            {
+                                <p>@rowItem.Description</p>
+                            }
+                        </div>
+                    }
+                </div>
+                itemIndex++;
+            }
+        }
+    </div>
+    @if(settings?.ShowNavigationArrows ?? false)
+    {
+        <button class="carousel-control-prev" type="button" data-bs-target="#@carouselId" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#@carouselId" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    }
+</div>
