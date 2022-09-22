@@ -7,7 +7,7 @@
 }
 
 <div class="row gx-4 gx-lg-5 my-5 justify-content-center bg-light text-end">	
-	<figure class="@(!string.IsNullOrWhiteSpace(settings.TextAlignment) ? settings.TextAlignment : null)">
+	<figure class="@(settings?.TextAlignment ?? "text-start")">
 		<blockquote cite="@(row.CiteLink != null ? row.CiteLink.Url : null)">
 			@row.QuoteText
 		</blockquote>

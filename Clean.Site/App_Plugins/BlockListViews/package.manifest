@@ -1,0 +1,11 @@
+{
+  "javascript": [
+    "~/App_Plugins/BlockListViews/resources/preview.resource.js",
+    "~/App_Plugins/BlockListViews/Blocks/block-preview.controller.js",
+    "~/App_Plugins/BlockListViews/directives/published-check.directive.js"
+  ],
+  "css": [
+    "~/portfolio-assets/bootstrap.css",
+    "~/portfolio-assets/ionicons.min.css"
+  ]
+}
