@@ -15,7 +15,7 @@
         <p>@row.Description</p>
     </header>
 
-    <div class="accordion" id="@accordionId">
+    <div class="accordion" id="@accordionId" @Html.Raw(settings?.ApplyFaqschema == true ? "itemscope itemtype=\"https://schema.org/FAQPage\"" : "")>
         @{
             var index = 0;
             foreach(var item in row.AccordionItems)
@@ -32,18 +32,38 @@
                 var headingId = accordionId + "-heading-" + index;
                 var collapseId = accordionId + "-collapse-" + index;
 
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="@headingId">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#@collapseId" aria-expanded="@show" aria-controls="@collapseId">
-                        @rowItem.Title
-                    </button>
-                    </h2>
-                    <div id="@collapseId" class="accordion-collapse collapse @(show ? "show" : null)" aria-labelledby="@headingId" data-bs-parent="#@accordionId">
-                    <div class="accordion-body">
-                        @rowItem.Content
+                @if (settings?.ApplyFaqschema == true)
+                {
+                    /// Example results: https://search.google.com/test/rich-results/result?id=DqdmFWs_XaONFgCO4JTzVQ
+                    /// 
+                    <div class="accordion-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                        <h2 class="accordion-header" id="@headingId">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#@collapseId" aria-expanded="@show" aria-controls="@collapseId" itemprop="name">
+                                @rowItem.Title
+                            </button>
+                        </h2>
+                        <div id="@collapseId" class="accordion-collapse collapse @(show ? "show" : null)" aria-labelledby="@headingId" data-bs-parent="#@accordionId" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                            <div class="accordion-body" itemprop="text">
+                                @rowItem.Content
+                            </div>
+                        </div>
                     </div>
+                }
+                else
+                {
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="@headingId">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#@collapseId" aria-expanded="@show" aria-controls="@collapseId">
+                                @rowItem.Title
+                            </button>
+                        </h2>
+                        <div id="@collapseId" class="accordion-collapse collapse @(show ? "show" : null)" aria-labelledby="@headingId" data-bs-parent="#@accordionId">
+                            <div class="accordion-body">
+                                @rowItem.Content
+                            </div>
+                        </div>
                     </div>
-                </div>
+                }
                 index++;
             }
         }
